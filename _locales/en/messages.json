@@ -1,0 +1,14 @@
+{
+	"extensionName": {
+		"message": "Download Filename Encoding"
+	},
+	"extensionDescription": {
+		"message": "Set the character encoding of download filenames"
+	},
+	"encodingLabel": {
+		"message": "Encoding: "
+	},
+	"detectUTF8Label": {
+		"message": "Detect UTF-8"
+	}
+}

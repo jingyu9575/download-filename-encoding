@@ -1,0 +1,14 @@
+{
+	"extensionName": {
+		"message": "下载文件名编码"
+	},
+	"extensionDescription": {
+		"message": "设置下载文件名的字符编码"
+	},
+	"encodingLabel": {
+		"message": "编码："
+	},
+	"detectUTF8Label": {
+		"message": "检测 UTF-8"
+	}
+}

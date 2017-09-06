@@ -1,0 +1,26 @@
+{
+	"manifest_version": 2,
+	"applications": {
+		"gecko": {
+			"id": "download-filename-encoding@qw.linux-2g64.local"
+		}
+	},
+	"name": "__MSG_extensionName__",
+	"version": "1.0",
+	"description": "__MSG_extensionDescription__",
+	"permissions": [
+		"<all_urls>",
+		"storage",
+		"webRequest",
+		"webRequestBlocking"
+	],
+	"background": {
+		"scripts": [
+			"background.js"
+		]
+	},
+	"options_ui": {
+		"page": "options.html"
+	},
+	"default_locale": "en"
+}
