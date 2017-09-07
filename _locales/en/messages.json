@@ -10,5 +10,8 @@
 	},
 	"detectUTF8Label": {
 		"message": "Detect UTF-8"
+	},
+	"detectURLEncodedLabel": {
+		"message": "Detect percent encoding (e.g. %20)"
 	}
 }

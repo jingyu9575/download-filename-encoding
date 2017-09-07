@@ -6,7 +6,7 @@
 		}
 	},
 	"name": "__MSG_extensionName__",
-	"version": "1.0",
+	"version": "1.1",
 	"description": "__MSG_extensionDescription__",
 	"permissions": [
 		"<all_urls>",

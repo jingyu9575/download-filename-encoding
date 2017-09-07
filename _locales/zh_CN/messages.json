@@ -10,5 +10,8 @@
 	},
 	"detectUTF8Label": {
 		"message": "检测 UTF-8"
+	},
+	"detectURLEncodedLabel": {
+		"message": "检测百分号编码（如 %20）"
 	}
 }
