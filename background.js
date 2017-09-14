@@ -26,27 +26,27 @@ void async function () {
 		for (const h of e.responseHeaders) {
 			if (h.name.toLowerCase() == 'content-disposition') {
 				const match = /^\s*attachment;\s*filename=([^;]+|"[^"]+")\s*$/.exec(h.value)
-				if (match) {
-					let filename = match[1]
-					if (filename.startsWith('"') && filename.endsWith('"'))
-						filename = filename.slice(1, -1)
-					let filenameSequence
-					if (settings.detectURLEncoded && isURLEncoded(filename)) {
-						filenameSequence = "UTF-8''" + filename
-					} else {
-						if (!settings.encoding) continue
-						filenameSequence = settings.encoding + "''" +
-							filename.replace(/[ -~]/g, encodeURIComponent)
-						if (settings.detectUTF8) {
-							try {
-								const escapedFilename = escape(filename)
-								decodeURIComponent(escapedFilename)
-								filenameSequence = "UTF-8''" + escapedFilename
-							} catch (err) { }
-						}
+				if (!match) continue
+				let filename = match[1]
+				if (filename.startsWith('"') && filename.endsWith('"'))
+					filename = filename.slice(1, -1)
+				if (/^\s*\=\?\S+?\?[qQbB]\?.+?\?\=\s*$/.test(filename)) continue
+				let filenameSequence
+				if (settings.detectURLEncoded && isURLEncoded(filename)) {
+					filenameSequence = "UTF-8''" + filename
+				} else {
+					if (!settings.encoding) continue
+					filenameSequence = settings.encoding + "''" +
+						filename.replace(/[ -~]/g, encodeURIComponent)
+					if (settings.detectUTF8) {
+						try {
+							const escapedFilename = escape(filename)
+							decodeURIComponent(escapedFilename)
+							filenameSequence = "UTF-8''" + escapedFilename
+						} catch (err) { }
 					}
-					h.value = `attachment; filename*=${filenameSequence}`
 				}
+				h.value = `attachment; filename*=${filenameSequence}`
 			}
 		}
 		return { responseHeaders: e.responseHeaders }
