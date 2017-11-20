@@ -6,7 +6,7 @@
 		}
 	},
 	"name": "__MSG_extensionName__",
-	"version": "1.2",
+	"version": "1.3",
 	"description": "__MSG_extensionDescription__",
 	"permissions": [
 		"<all_urls>",
@@ -15,9 +15,7 @@
 		"webRequestBlocking"
 	],
 	"background": {
-		"scripts": [
-			"background.js"
-		]
+		"page": "background.html"
 	},
 	"options_ui": {
 		"page": "options.html"

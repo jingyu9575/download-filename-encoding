@@ -2,13 +2,16 @@ let settings = {}
 
 async function reloadSettings() {
 	settings = await browser.storage.local.get()
-	settings.encoding = (settings.encoding || '').replace(/[^-_a-zA-Z0-9:]/g, '')
+	settings.encoding = (settings.encoding || document.characterSet)
+		.replace(/[^-_a-zA-Z0-9:]/g, '')
 }
 
 browser.runtime.onMessage.addListener(async message => {
 	if (!message || typeof message !== 'object') return
 	if (message.type === 'reloadSettings')
 		await reloadSettings()
+	else if (message.type === 'defaultEncoding')
+		return Promise.resolve(document.characterSet)
 })
 
 function isURLEncoded(s) {
@@ -25,7 +28,7 @@ void async function () {
 	browser.webRequest.onHeadersReceived.addListener(e => {
 		for (const h of e.responseHeaders) {
 			if (h.name.toLowerCase() == 'content-disposition') {
-				const match = /^\s*attachment;\s*filename=([^;]+|"[^"]+")\s*$/.exec(h.value)
+				const match = /^\s*attachment;\s*filename=([^;]+|"[^"]+")\s*$/i.exec(h.value)
 				if (!match) continue
 				let filename = match[1]
 				if (filename.startsWith('"') && filename.endsWith('"'))

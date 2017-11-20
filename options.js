@@ -22,4 +22,7 @@ void async function () {
 
 	for (const node of document.getElementsByTagName('input'))
 		node.addEventListener('change', saveSettings, false)
+
+	encodingInput.placeholder = 
+		await browser.runtime.sendMessage({ type: 'defaultEncoding' })
 }()
