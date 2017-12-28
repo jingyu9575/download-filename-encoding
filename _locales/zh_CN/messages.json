@@ -5,13 +5,16 @@
 	"extensionDescription": {
 		"message": "设置下载文件名的字符编码"
 	},
-	"encodingLabel": {
+	"encoding": {
 		"message": "编码："
 	},
-	"detectUTF8Label": {
+	"detectUTF8": {
 		"message": "检测 UTF-8"
 	},
-	"detectURLEncodedLabel": {
+	"detectURLEncoded": {
 		"message": "检测百分号编码（如 %20）"
+	},
+	"detectNonStandardURLEncoded": {
+		"message": "检测非标准的百分号编码"
 	}
 }

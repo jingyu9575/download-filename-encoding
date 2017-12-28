@@ -14,31 +14,44 @@ browser.runtime.onMessage.addListener(async message => {
 		return Promise.resolve(document.characterSet)
 })
 
-function isURLEncoded(s) {
-	try {
-		if (decodeURIComponent(s) !== s)
-			return true
-	} catch (err) { }
-	return false
+function processURLEncoded(s) {
+	if (settings.detectURLEncoded) {
+		try {
+			if (decodeURIComponent(s) !== s)
+				return `UTF-8''${s}`
+		} catch (err) { }
+	}
+	if (settings.detectNonStandardURLEncoded) {
+		try {
+			const seq = unescape(s)
+			if (seq !== s) {
+				const arr = [...seq].map(v => v.charCodeAt(0)).filter(v => v <= 255)
+				new TextDecoder(settings.encoding).decode(Uint8Array.from(arr))
+				return `${settings.encoding}''${s}`
+			}
+		} catch (err) { }
+	}
+	return undefined
 }
 
 void async function () {
 	await reloadSettings()
 
 	browser.webRequest.onHeadersReceived.addListener(e => {
+		let contentDispositionHeader = undefined
 		for (const h of e.responseHeaders) {
 			if (h.name.toLowerCase() == 'content-disposition') {
-				const match = /^\s*attachment;\s*filename=([^;]+|"[^"]+")\s*$/i.exec(h.value)
-				if (!match) continue
+				contentDispositionHeader = h
+				const match = /^\s*attachment;\s*filename=([^;]+|"[^"]+")\s*$/i
+					.exec(h.value)
+				if (!match) break
 				let filename = match[1]
 				if (filename.startsWith('"') && filename.endsWith('"'))
 					filename = filename.slice(1, -1)
-				if (/^\s*\=\?\S+?\?[qQbB]\?.+?\?\=\s*$/.test(filename)) continue
-				let filenameSequence
-				if (settings.detectURLEncoded && isURLEncoded(filename)) {
-					filenameSequence = "UTF-8''" + filename
-				} else {
-					if (!settings.encoding) continue
+				if (/^\s*\=\?\S+?\?[qQbB]\?.+?\?\=\s*$/.test(filename)) return {}
+				let filenameSequence = processURLEncoded(filename)
+				if (!filenameSequence) {
+					if (!settings.encoding) return {}
 					filenameSequence = settings.encoding + "''" +
 						filename.replace(/[ -~]/g, encodeURIComponent)
 					if (settings.detectUTF8) {
@@ -50,8 +63,33 @@ void async function () {
 					}
 				}
 				h.value = `attachment; filename*=${filenameSequence}`
+				return { responseHeaders: e.responseHeaders }
 			}
 		}
-		return { responseHeaders: e.responseHeaders }
-	}, { urls: ["<all_urls>"] }, ["blocking", "responseHeaders"])
+		// detect URL encoded filename in URL
+		if (settings.detectURLEncoded || settings.detectNonStandardURLEncoded) {
+			let filename = new URL(e.url).pathname.replace(
+				new URL('.', e.url).pathname, '')
+			try {
+				filename = decodeURIComponent(filename)
+			} catch (err) { }
+			const filenameSequence = processURLEncoded(filename)
+			if (filenameSequence) {
+				const headerSuffix = `;filename*=${filenameSequence}`
+				if (contentDispositionHeader) {
+					if (!(/\s*\w+\s*/.exec(contentDispositionHeader.value || '')))
+						return {}
+					contentDispositionHeader.value += headerSuffix
+				} else {
+					e.responseHeaders.push({
+						name: 'Content-Disposition',
+						value: 'inline' + headerSuffix,
+					})
+				}
+				return { responseHeaders: e.responseHeaders }
+			}
+		}
+		return {}
+	}, { urls: ["<all_urls>"], types: ['main_frame', 'sub_frame'] },
+		["blocking", "responseHeaders"])
 }()

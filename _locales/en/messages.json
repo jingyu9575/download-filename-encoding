@@ -5,13 +5,16 @@
 	"extensionDescription": {
 		"message": "Set the character encoding of download filenames"
 	},
-	"encodingLabel": {
+	"encoding": {
 		"message": "Encoding: "
 	},
-	"detectUTF8Label": {
+	"detectUTF8": {
 		"message": "Detect UTF-8"
 	},
-	"detectURLEncodedLabel": {
+	"detectURLEncoded": {
 		"message": "Detect percent encoding (e.g. %20)"
+	},
+	"detectNonStandardURLEncoded": {
+		"message": "Detect non-standard percent encoding"
 	}
 }
