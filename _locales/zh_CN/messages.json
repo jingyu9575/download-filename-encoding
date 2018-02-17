@@ -16,5 +16,14 @@
 	},
 	"detectNonStandardURLEncoded": {
 		"message": "检测非标准的百分号编码"
+	},
+	"siteEncodings": {
+		"message": "特定网站的编码"
+	},
+	"siteEncodingsDesc": {
+		"message": "每行一条规则。格式：<编码> <网站域名>"
+	},
+	"saveDesc": {
+		"message": "单击输入框外来保存。"
 	}
 }

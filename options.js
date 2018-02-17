@@ -1,32 +1,28 @@
 for (const element of document.querySelectorAll('[data-i18n]'))
 	element.innerText = browser.i18n.getMessage(element.dataset['i18n'])
 
-const encodingInput = document.getElementById('encoding')
-const detectUTF8Input = document.getElementById('detectUTF8')
-const detectURLEncodedInput = document.getElementById('detectURLEncoded')
-const detectNonStandardURLEncodedInput =
-	document.getElementById('detectNonStandardURLEncoded')
+browser.runtime.sendMessage({ type: 'defaultEncoding' }).then(
+	v => document.querySelector('[data-key=encoding]').placeholder = v)
 
-async function saveSettings() {
-	await browser.storage.local.set({
-		encoding: encodingInput.value,
-		detectUTF8: detectUTF8Input.checked,
-		detectURLEncoded: detectURLEncodedInput.checked,
-		detectNonStandardURLEncoded: detectNonStandardURLEncodedInput.checked,
+for (const input of document.querySelectorAll('[data-key]')) {
+	const key = input.dataset.key
+	browser.storage.local.get(key).then(obj => {
+		const value = obj[key]
+		if (input.type === 'checkbox')
+			input.checked = value
+		else
+			input.value = '' + (value == null ? '' : value)
 	})
-	await browser.runtime.sendMessage({ type: 'reloadSettings' })
+	input.addEventListener('change', async () => {
+		if (!input.checkValidity()) return
+		let value
+		if (input.type === 'number')
+			value = Number(input.value)
+		else if (input.type === 'checkbox')
+			value = input.checked
+		else
+			value = input.value
+		await browser.storage.local.set({ [key]: value })
+		await browser.runtime.sendMessage({ type: 'reloadSettings' })
+	})
 }
-
-void async function () {
-	const settings = await browser.storage.local.get()
-	encodingInput.value = settings.encoding || ''
-	detectUTF8Input.checked = !!settings.detectUTF8
-	detectURLEncodedInput.checked = !!settings.detectURLEncoded
-	detectNonStandardURLEncodedInput.checked = !!settings.detectNonStandardURLEncoded
-
-	for (const node of document.getElementsByTagName('input'))
-		node.addEventListener('change', saveSettings, false)
-
-	encodingInput.placeholder =
-		await browser.runtime.sendMessage({ type: 'defaultEncoding' })
-}()

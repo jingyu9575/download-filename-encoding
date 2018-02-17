@@ -16,5 +16,14 @@
 	},
 	"detectNonStandardURLEncoded": {
 		"message": "Detect non-standard percent encoding"
+	},
+	"siteEncodings": {
+		"message": "Encodings for specific sites"
+	},
+	"siteEncodingsDesc": {
+		"message": "One entry per line. Format: <encoding> <domain name>"
+	},
+	"saveDesc": {
+		"message": "Click outside the text fields to save."
 	}
 }

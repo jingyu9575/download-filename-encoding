@@ -8,28 +8,30 @@
 </head>
 
 <body>
-	<div>
+	<section>
 		<label>
 			<span data-i18n="encoding"></span>
-			<input id="encoding" type="text">
+			<input data-key="encoding" type="text">
 		</label>
-	</div>
-	<div>
 		<label>
-			<input id="detectUTF8" type="checkbox">
+			<input data-key="detectUTF8" type="checkbox">
 			<span data-i18n="detectUTF8"></span>
 		</label>
-	</div>
-	<div>
 		<label>
-			<input id="detectURLEncoded" type="checkbox">
+			<input data-key="detectURLEncoded" type="checkbox">
 			<span data-i18n="detectURLEncoded"></span>
 		</label>
 		<label>
-			<input id="detectNonStandardURLEncoded" type="checkbox">
+			<input data-key="detectNonStandardURLEncoded" type="checkbox">
 			<span data-i18n="detectNonStandardURLEncoded"></span>
 		</label>
-	</div>
+	</section>
+	<section>
+		<h2 data-i18n="siteEncodings"></h2>
+		<div data-i18n="siteEncodingsDesc"></div>
+		<textarea data-key="siteEncodings" placeholder="UTF-8 www.example.com"></textarea>
+	</section>
+	<div data-i18n="saveDesc"></div>
 	<script src="options.js"></script>
 </body>
 

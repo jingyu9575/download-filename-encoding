@@ -1,9 +1,16 @@
 let settings = {}
+let siteEncodings = new Map()
 
 async function reloadSettings() {
 	settings = await browser.storage.local.get()
 	settings.encoding = (settings.encoding || document.characterSet)
 		.replace(/[^-_a-zA-Z0-9:]/g, '')
+	siteEncodings = new Map()
+	for (const s of settings.siteEncodings.split(/\r|\n/)) {
+		const match = s.match(/^\s*(\S+)\s+(\S+)/)
+		if (!match) continue
+		siteEncodings.set(match[2].toLowerCase(), match[1])
+	}
 }
 
 browser.runtime.onMessage.addListener(async message => {
@@ -14,7 +21,7 @@ browser.runtime.onMessage.addListener(async message => {
 		return Promise.resolve(document.characterSet)
 })
 
-function processURLEncoded(s) {
+function processURLEncoded(s, encoding) {
 	if (settings.detectURLEncoded) {
 		try {
 			if (decodeURIComponent(s) !== s)
@@ -26,12 +33,17 @@ function processURLEncoded(s) {
 			const seq = unescape(s)
 			if (seq !== s) {
 				const arr = [...seq].map(v => v.charCodeAt(0)).filter(v => v <= 255)
-				new TextDecoder(settings.encoding).decode(Uint8Array.from(arr))
-				return `${settings.encoding}''${s}`
+				new TextDecoder(encoding).decode(Uint8Array.from(arr))
+				return `${encoding}''${s}`
 			}
 		} catch (err) { }
 	}
 	return undefined
+}
+
+function siteEncodingForURL(url) {
+	return siteEncodings.get(new URL(url).hostname.toLowerCase())
+		|| settings.encoding
 }
 
 void async function () {
@@ -39,6 +51,7 @@ void async function () {
 
 	browser.webRequest.onHeadersReceived.addListener(e => {
 		let contentDispositionHeader = undefined
+		let encoding = undefined
 		for (const h of e.responseHeaders) {
 			if (h.name.toLowerCase() == 'content-disposition') {
 				contentDispositionHeader = h
@@ -51,8 +64,9 @@ void async function () {
 				if (/^\s*\=\?\S+?\?[qQbB]\?.+?\?\=\s*$/.test(filename)) return {}
 				let filenameSequence = processURLEncoded(filename)
 				if (!filenameSequence) {
-					if (!settings.encoding) return {}
-					filenameSequence = settings.encoding + "''" +
+					if (!encoding) encoding = siteEncodingForURL(e.url)
+					if (!encoding) return {}
+					filenameSequence = encoding + "''" +
 						filename.replace(/[ -~]/g, encodeURIComponent)
 					if (settings.detectUTF8) {
 						try {
@@ -73,7 +87,8 @@ void async function () {
 			try {
 				filename = decodeURIComponent(filename)
 			} catch (err) { }
-			const filenameSequence = processURLEncoded(filename)
+			if (!encoding) encoding = siteEncodingForURL(e.url)
+			const filenameSequence = processURLEncoded(filename, encoding)
 			if (filenameSequence) {
 				const headerSuffix = `;filename*=${filenameSequence}`
 				if (contentDispositionHeader) {
