@@ -6,7 +6,7 @@ async function reloadSettings() {
 	settings.encoding = (settings.encoding || document.characterSet)
 		.replace(/[^-_a-zA-Z0-9:]/g, '')
 	siteEncodings = new Map()
-	for (const s of settings.siteEncodings.split(/\r|\n/)) {
+	for (const s of (settings.siteEncodings || '').split(/\r|\n/)) {
 		const match = s.match(/^\s*(\S+)\s+(\S+)/)
 		if (!match) continue
 		siteEncodings.set(match[2].toLowerCase(), match[1])
