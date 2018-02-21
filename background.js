@@ -24,8 +24,9 @@ browser.runtime.onMessage.addListener(async message => {
 function processURLEncoded(s, encoding) {
 	if (settings.detectURLEncoded) {
 		try {
-			if (decodeURIComponent(s) !== s)
-				return `UTF-8''${s}`
+			const decoded = decodeURIComponent(s)
+			if (decoded !== s)
+				return `UTF-8''${encodeURIComponent(decoded)}`
 		} catch (err) { }
 	}
 	if (settings.detectNonStandardURLEncoded) {
