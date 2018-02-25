@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="SVGRoot"
+   version="1.1"
+   viewBox="0 0 16 16"
+   height="48px"
+   width="48px"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="icon.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="701"
+     id="namedview835"
+     showgrid="true"
+     inkscape:zoom="9.6882378"
+     inkscape:cx="23.048838"
+     inkscape:cy="-4.996196"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="SVGRoot">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1380"
+       empspacing="4" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1366" />
+  <metadata
+     id="metadata1369">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     style="fill:none;stroke:#000000;stroke-opacity:1" />
+  <circle
+     style="fill:none;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+     id="path1684"
+     cx="8"
+     cy="8"
+     r="7" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:5.33333349px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="3"
+     y="6"
+     id="text1690"><tspan
+       sodipodi:role="line"
+       id="tspan1688"
+       x="3"
+       y="10.71875" /></text>
+  <path
+     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="M 8.5237296,8.0069911 V 1.5416594 l 0.3315966,0.039604 c 1.025208,0.122444 2.1315668,0.5751644 3.0081638,1.2309366 1.636723,1.2244135 2.604345,3.1504663 2.604345,5.1839537 0,2.4572753 -1.37953,4.6873483 -3.585346,5.7958783 -0.631423,0.31732 -1.244746,0.500643 -2.1789864,0.6513 l -0.179773,0.02899 z"
+     id="path1696"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.33335781px;line-height:125%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.00000453px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="3.0773275"
+     y="10.949268"
+     id="text1751"
+     transform="scale(1.0000046,0.99999541)"><tspan
+       sodipodi:role="line"
+       id="tspan1749"
+       x="3.0773275"
+       y="10.949268"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8.00003624px;font-family:Tuffy;-inkscape-font-specification:'Tuffy Bold';stroke-width:1.00000453px">?</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.33333349px;line-height:125%;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="8.7218752"
+     y="11"
+     id="text824"><tspan
+       sodipodi:role="line"
+       id="tspan822"
+       x="8.7218752"
+       y="11"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:Tuffy;-inkscape-font-specification:'Tuffy Bold';fill:#ffffff;fill-opacity:1">A</tspan></text>
+</svg>

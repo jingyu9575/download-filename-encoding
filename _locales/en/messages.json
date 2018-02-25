@@ -5,6 +5,9 @@
 	"extensionDescription": {
 		"message": "Set the character encoding of download filenames"
 	},
+	"general": {
+		"message": "General"
+	},
 	"encoding": {
 		"message": "Encoding: "
 	},
@@ -16,6 +19,15 @@
 	},
 	"detectNonStandardURLEncoded": {
 		"message": "Detect non-standard percent encoding"
+	},
+	"quickSwitchList": {
+		"message": "Quick switch list"
+	},
+	"quickSwitchListDesc": {
+		"message": "List your frequently used encodings, separated by spaces or commas. \nSwitch to these encodings by right-clicking the icon."
+	},
+	"moreEntries": {
+		"message": "More entries"
 	},
 	"siteEncodings": {
 		"message": "Encodings for specific sites"

@@ -12,7 +12,8 @@
 		"<all_urls>",
 		"storage",
 		"webRequest",
-		"webRequestBlocking"
+		"webRequestBlocking",
+		"menus"
 	],
 	"background": {
 		"page": "background.html"
@@ -20,5 +21,19 @@
 	"options_ui": {
 		"page": "options.html"
 	},
-	"default_locale": "en"
+	"default_locale": "en",
+	"icons": {
+		"48": "icons/icon.svg"
+	},
+	"browser_action": {
+		"default_icon": "icons/icon.svg",
+		"default_title": "__MSG_extensionName__",
+		"theme_icons": [
+			{
+				"light": "icons/icon-light.svg",
+				"dark": "icons/icon.svg",
+				"size": 48
+			}
+		]
+	}
 }

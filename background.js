@@ -1,6 +1,21 @@
 let settings = {}
 let siteEncodings = new Map()
 
+const encodingAbbreviations = {
+	"UTF-8": "U-8", "IBM866": "866", "ISO-8859-2": "I-2", "ISO-8859-3": "I-3",
+	"ISO-8859-4": "I-4", "ISO-8859-5": "I-5", "ISO-8859-6": "I-6",
+	"ISO-8859-7": "I-7", "ISO-8859-8": "I-8", "ISO-8859-8-I": "I8I",
+	"ISO-8859-10": "I10", "ISO-8859-13": "I13", "ISO-8859-14": "I14",
+	"ISO-8859-15": "I15", "ISO-8859-16": "I16", "KOI8-R": "KOI",
+	"KOI8-U": "K-U", "MACINTOSH": "MAC", "WINDOWS-874": "874",
+	"WINDOWS-1250": "W-0", "WINDOWS-1251": "W-1", "WINDOWS-1252": "W-2",
+	"WINDOWS-1253": "W-3", "WINDOWS-1254": "W-4", "WINDOWS-1255": "W-5",
+	"WINDOWS-1256": "W-6", "WINDOWS-1257": "W-7", "WINDOWS-1258": "W-8",
+	"X-MAC-CYRILLIC": "CYR", "GBK": "GBK", "GB18030": "GB1", "BIG5": "B-5",
+	"EUC-JP": "JP", "ISO-2022-JP": "IJP", "SHIFT_JIS": "JIS", "EUC-KR": "KR",
+	"UTF-16BE": "UBE", "UTF-16LE": "U16", "X-USER-DEFINED": "USR",
+}
+
 async function reloadSettings() {
 	settings = await browser.storage.local.get()
 	settings.encoding = (settings.encoding || document.characterSet)
@@ -11,6 +26,42 @@ async function reloadSettings() {
 		if (!match) continue
 		siteEncodings.set(match[2].toLowerCase(), match[1])
 	}
+
+	await browser.menus.removeAll()
+
+	// ASCII only (background page uses system encoding)
+	// %EF%BC%8C is fullwidth comma
+	const quickSwitchList = (settings.quickSwitchList || '')
+		.split(new RegExp(decodeURIComponent('[,%EF%BC%8C\\s]'))).filter(s => s)
+	let menuParentId = undefined
+	for (const [i, encoding] of quickSwitchList.entries()) {
+		if (quickSwitchList.length > browser.menus.ACTION_MENU_TOP_LEVEL_LIMIT &&
+			i === browser.menus.ACTION_MENU_TOP_LEVEL_LIMIT - 1)
+			menuParentId = browser.menus.create({
+				contexts: ['browser_action'],
+				title: browser.i18n.getMessage('moreEntries'),
+			})
+		browser.menus.create({
+			contexts: ['browser_action'],
+			parentId: menuParentId,
+			title: encoding,
+			onclick: async () => {
+				await browser.storage.local.set({ encoding })
+				await reloadSettings()
+			},
+			type: 'radio',
+			checked: encoding.toLowerCase() === settings.encoding.toLowerCase(),
+		})
+	}
+
+	void browser.browserAction.setBadgeBackgroundColor({ color: 'cornflowerblue' })
+	let text = settings.encoding
+	try {
+		const key = new TextDecoder(settings.encoding).encoding.toUpperCase()
+		if (encodingAbbreviations.hasOwnProperty(key))
+			text = encodingAbbreviations[key]
+	} catch (error) { }
+	void browser.browserAction.setBadgeText({ text })
 }
 
 browser.runtime.onMessage.addListener(async message => {
@@ -46,6 +97,8 @@ function siteEncodingForURL(url) {
 	return siteEncodings.get(new URL(url).hostname.toLowerCase())
 		|| settings.encoding
 }
+
+browser.browserAction.onClicked.addListener(() => browser.runtime.openOptionsPage())
 
 void async function () {
 	await reloadSettings()

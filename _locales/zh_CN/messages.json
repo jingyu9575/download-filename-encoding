@@ -5,6 +5,9 @@
 	"extensionDescription": {
 		"message": "设置下载文件名的字符编码"
 	},
+	"general": {
+		"message": "常规"
+	},
 	"encoding": {
 		"message": "编码："
 	},
@@ -16,6 +19,15 @@
 	},
 	"detectNonStandardURLEncoded": {
 		"message": "检测非标准的百分号编码"
+	},
+	"quickSwitchList": {
+		"message": "快速切换列表"
+	},
+	"quickSwitchListDesc": {
+		"message": "填写经常使用的编码。用空格或逗号分隔。\n右键单击图标可切换到这些编码。"
+	},
+	"moreEntries": {
+		"message": "更多项"
 	},
 	"siteEncodings": {
 		"message": "特定网站的编码"
